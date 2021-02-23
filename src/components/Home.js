@@ -1,11 +1,13 @@
 import React from "react";
 import { useQuery, gql } from "@apollo/client";
 
+import Signup from "./Auth/Signup";
+
 const allUsers = gql`
 	query allUsers {
 		allUsers {
 			id
-			name
+			email
 		}
 	}
 `;
@@ -18,17 +20,21 @@ const Home = () => {
 	if (error) return <p> Error ---: </p>;
 	console.log(data);
 	const renderUsers = () => {
-		return data.allUsers.map(({ id, name }) => (
+		return data.allUsers.map(({ id, email }) => (
 			<div key={id}>
-				{id} {name}
+				{id} {email}
 			</div>
 		));
 	};
 
 	return (
-		<div>
-			<h3> This is home.</h3>
-			{renderUsers()}
+		<div className="ju-central-panel">
+			<div>
+				<h3> Welcome to Jupeid !!! </h3>
+				{renderUsers()}
+			</div>
+
+			<Signup />
 		</div>
 	);
 };

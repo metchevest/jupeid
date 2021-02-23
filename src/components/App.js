@@ -10,26 +10,28 @@ import "../style/style.css";
 import history from "../history";
 
 import Home from "./Home";
-import Classes from "./Classes";
-import Groups from "./Groups";
+import Classes from "./Class/Classes";
+import Groups from "./Group/Groups";
 import Header from "./Header";
-import Assistants from "./Assistants";
-import NewGroup from "./NewGroup";
+import Assistants from "./Assistant/Assistants";
+
+// {
+// 	dataIdFromObject(responseObject) {
+// 		// TO-DO.
+// 		switch (responseObject.__typename) {
+// 			case "Group":
+// 				return `Group:${responseObject.id}`;
+// 			case "Users":
+// 				console.log("estoy en user");
+// 				return `User:${responseObject.id}`;
+// 			default:
+// 				return "${responseObject.id";
+// 		}
 
 const client = new ApolloClient({
 	uri: "http://localhost:4000/",
-	cache: new InMemoryCache({
-		dataIdFromObject(responseObject) {
-			switch (responseObject.__typename) {
-				case "Group":
-					return `Group:${responseObject.id}`;
-				case "User":
-					return `User:${responseObject.id}`;
-				default:
-					return "${responseObject.id";
-			}
-		},
-	}),
+
+	cache: new InMemoryCache(),
 });
 
 client
@@ -50,7 +52,7 @@ client
 
 const App = () => {
 	return (
-		<div className="ui">
+		<div>
 			<ApolloProvider client={client}>
 				<Router history={history}>
 					<div className="main-ju">
@@ -67,9 +69,6 @@ const App = () => {
 							</Route>
 							<Route path="/classes">
 								<Classes />
-							</Route>
-							<Route path="/new/group">
-								<NewGroup />
 							</Route>
 						</Switch>
 						<div className="footer"></div>

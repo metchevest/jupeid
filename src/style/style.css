@@ -1,39 +1,48 @@
-.header {
-	background-color: #33ff57;
+.ju-header {
+	background: #33ff57;
 	display: flex;
 	justify-content: center;
-	/* align-content: center;
-	align-items: center; */
 	font-family: "Rajdhani", semi-bold 600;
 	font-size: xxx-large;
 	padding: 3%;
 	width: 100%;
+	height: 18vh;
 }
 
+.ju-central-panel {
+	/* background-color: red; */
+	height: 60vh;
+	display: flex;
+	justify-content: center;
+	padding: 35px;
+	overflow: auto;
+}
+
+.inline-name-check {
+	display: flex;
+	justify-content: space-between;
+	/* background-color: lightblue; */
+}
+.border {
+	border: black solid;
+	margin: 5px;
+}
 .footer {
-	background-color: #33ff57;
+	background: #33ff57;
 	height: 35px;
 	width: 100%;
 }
 
-.main-ju {
-	/* display: flex;
-	align-content: stretch; */
-	/* align-items: stretch; */
-}
-
 .menu-ju {
-	background-color: #33ff57;
-	/* height: 17em; */
+	background: #33ff57;
 	display: flex;
 	justify-content: space-between;
-	/* align-content: center;
-	align-items: center; */
 	font-family: "Alegreya Sans", sans-serif;
 	font-size: xxx-large;
 	padding: 35px;
 	padding-left: 20%;
 	padding-right: 20%;
+	height: 10vh;
 }
 
 .font-search {
@@ -51,8 +60,7 @@
 .menu-item {
 	cursor: pointer;
 	border: 1px;
-	border-style: solid;
-	border-color: #33ff57;
+	border: #33ff57 solid;
 	padding: 5%;
 }
 
@@ -69,12 +77,12 @@
 	border-color: blueviolet;
 }
 
-.custom-font {
+.ju-font {
 	font-family: "Alegreya Sans", sans-serif;
 }
 
 .main-content {
-	background-color: blueviolet;
+	background: blueviolet;
 	margin: 3%;
 	padding: 5%;
 	height: 100%;

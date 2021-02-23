@@ -5,7 +5,7 @@ import Menu from "./Menu";
 const Header = () => {
 	return (
 		<div>
-			<div className="header">
+			<div className="ju-header">
 				<h1 className="title"> Jupeid</h1>
 				<div className="inline field">
 					<label className="switch">
@@ -14,9 +14,8 @@ const Header = () => {
 					</label>
 				</div>
 			</div>
-			<div>
-				<Menu />
-			</div>
+
+			<Menu />
 		</div>
 	);
 };
