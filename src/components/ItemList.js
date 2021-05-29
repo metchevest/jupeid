@@ -23,7 +23,7 @@ const ItemList = (props) => {
     };
 
 	return (
-		{renderItems()}
+		{renderItems()    }
 	);
 };
 

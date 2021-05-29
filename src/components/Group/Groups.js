@@ -1,76 +1,103 @@
-import React from "react";
-import { useQuery, gql, useMutation } from "@apollo/client";
+import React, { useState } from "react";
+import { useQuery, useMutation } from "@apollo/client";
 
-// import fetchGroups from "../queries/fetchGroups";
-import NewGroup from "./NewGroup";
+import GroupNew from "./GroupNew";
+import GroupForm from "./GroupForm";
 
-const fetchGroups = gql`
-	query getGroups {
-		allGroups {
-			id
-			name
-			cost
-		}
-	}
-`;
+import { GET_ALL_GROUPS } from "../../queries/Groups/groups";
+import { DELETE_GROUP } from "../../queries/Groups/groups";
+import { EDIT_GROUP } from "../../queries/Groups/groups";
 
-const DELETE_GROUP = gql`
-	mutation deleteGroup($id: ID!) {
-		deleteGroup(id: $id) {
-			id
-		}
-	}
-`;
+const Groups = () => {
+	const { loading, error, data } = useQuery(GET_ALL_GROUPS, {
+		fetchPolicy: "cache-first",
+	});
 
-const Groups = (props) => {
-	const { loading, error, data } = useQuery(fetchGroups);
 	const [deleteGroup] = useMutation(DELETE_GROUP, {
-		update(cache, { data: { deleteGroup } }) {
-			cache.modify({
-				fields: {
-					allGroups(existingGroups = []) {
-						// console.log(deletedGroup);
-						const deletedGroup = cache.writeFragment({
-							data: deleteGroup,
-							fragment: gql`
-								fragment DeleteGroup on allGroups {
-									id
-								}
-							`,
-						});
-						return existingGroups.filter((item) => {
-							let value = item !== deletedGroup;
-							console.log(item);
-							console.log(deleteGroup);
-							console.log(`Group:${deleteGroup.id}`);
-							console.log(value);
-							return value;
-						});
-					},
+		update(cache, { data: { deleteGroup: groupDeleted } }) {
+			const existingGroups = cache.readQuery({
+				query: GET_ALL_GROUPS,
+			});
+
+			cache.writeQuery({
+				query: GET_ALL_GROUPS,
+				data: {
+					groups: existingGroups?.groups.filter(
+						(group) => group.id !== groupDeleted.id
+					),
 				},
 			});
+
+			const idNormalized = cache.identify({
+				id: groupDeleted.id,
+				__typename: "Group",
+			});
+
+			cache.evict({ id: idNormalized });
+			cache.gc();
 		},
 	});
 
+	const [updateGroup] = useMutation(EDIT_GROUP);
+	const [addEditState, setaddEditState] = useState("add");
+	const [edit, setEdit] = useState();
+
 	const deleteAGroup = (id) => {
-		console.log("about to delete the group");
 		deleteGroup({ variables: { id: parseInt(id) } });
+
+		//In case the deleted group is loaded on the form.
+		setaddEditState("add");
+	};
+
+	const editGroup = (id, cost, name) => {
+		setEdit({ id, cost, name });
+		setaddEditState("edit");
 	};
 
 	const renderGroups = () => {
-		return data.allGroups.map(({ id, cost, name }) => {
+		return data.groups.map(({ id, cost, name }) => {
 			return (
-				<div
-					key={id}
-					className="two wide column border"
-					onClick={() => deleteAGroup(id)}
-				>
+				<div key={id} className="ju-item-row">
 					<div className="inline-name-check">
-						{id} {cost} {name}
+						{name} {id}
+					</div>
+					<div>
+						<i className="dollar sign icon"></i> {cost}
+					</div>
+					<div className="group_icon">
+						<div onClick={() => editGroup(id, cost, name)}>
+							<i className="edit outline icon"></i>
+						</div>
+						<div onClick={() => deleteAGroup(id)}>
+							<i className="trash alternate outline icon"> </i>
+						</div>
 					</div>
 				</div>
 			);
 		});
+	};
+
+	const onSubmitEdit = ({ id, name, cost }) => {
+		setaddEditState("add");
+		updateGroup({ variables: { id, name, cost: parseFloat(cost) } });
+	};
+
+	const onCancelEdit = () => {
+		setaddEditState("add");
+	};
+
+	const renderEdit = () => {
+		return (
+			<GroupForm
+				titleText="Edit Group"
+				buttonText="Save Group"
+				values={edit}
+				onCancel={() => onCancelEdit()}
+				onSubmit={(e) => {
+					onSubmitEdit(e);
+				}}
+			/>
+		);
 	};
 
 	if (loading) return <p>Loading ...</p>;
@@ -79,10 +106,12 @@ const Groups = (props) => {
 
 	return (
 		<div className="ju-central-panel">
-			<h1 className="ju-font">Your Groups</h1>
-			<div className="ui grid container"> {renderGroups()}</div>
 			<div>
-				<NewGroup />
+				<h1 className="ju-font_title">Your Groups</h1>
+				<div className="ju-groups"> {renderGroups()}</div>
+			</div>
+			<div className="ju-form-position">
+				{addEditState === "add" ? <GroupNew /> : renderEdit()}
 			</div>
 		</div>
 	);

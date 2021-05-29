@@ -1,17 +1,21 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 import Menu from "./Menu";
+import AuthGate from "./Auth/AuthGate";
 
 const Header = () => {
 	return (
 		<div>
 			<div className="ju-header">
-				<h1 className="title"> Jupeid</h1>
-				<div className="inline field">
-					<label className="switch">
-						<input type="checkbox" />
-						<span className="slider"></span>
-					</label>
+				<div>
+					<Link to="/" className="ju-title">
+						{" "}
+						Jupeid ?
+					</Link>
+				</div>
+				<div>
+					<AuthGate />
 				</div>
 			</div>
 

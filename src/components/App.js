@@ -1,11 +1,8 @@
 import React from "react";
 import { Router, Route, Switch } from "react-router-dom";
-
-import { ApolloClient, InMemoryCache } from "@apollo/client";
-import { gql } from "@apollo/client";
 import { ApolloProvider } from "@apollo/client";
 
-import "../style/style.css";
+import "../style/main.scss";
 
 import history from "../history";
 
@@ -15,42 +12,14 @@ import Groups from "./Group/Groups";
 import Header from "./Header";
 import Assistants from "./Assistant/Assistants";
 
-// {
-// 	dataIdFromObject(responseObject) {
-// 		// TO-DO.
-// 		switch (responseObject.__typename) {
-// 			case "Group":
-// 				return `Group:${responseObject.id}`;
-// 			case "Users":
-// 				console.log("estoy en user");
-// 				return `User:${responseObject.id}`;
-// 			default:
-// 				return "${responseObject.id";
-// 		}
+import ProtectedRoute from "./Auth/ProtectedRoute";
 
-const client = new ApolloClient({
-	uri: "http://localhost:4000/",
-
-	cache: new InMemoryCache(),
-});
-
-client
-	.query({
-		query: gql`
-			query aQuery {
-				allUsers {
-					id
-					name
-					facebook_id
-					fantasy_name
-					month_income
-				}
-			}
-		`,
-	})
-	.then((result) => console.log(result));
+import { useApolloClient } from "./ClientApollo";
+import Signup from "./Auth/SignUp";
 
 const App = () => {
+	const client = useApolloClient();
+
 	return (
 		<div>
 			<ApolloProvider client={client}>
@@ -61,14 +30,15 @@ const App = () => {
 							<Route path="/" exact>
 								<Home />
 							</Route>
-							<Route path="/groups">
-								<Groups />
-							</Route>
-							<Route path="/assistants">
-								<Assistants />
-							</Route>
-							<Route path="/classes">
-								<Classes />
+
+							<ProtectedRoute path="/groups" component={Groups} />
+
+							<ProtectedRoute path="/assistants" component={Assistants} />
+
+							<ProtectedRoute path="/classes" component={Classes} />
+
+							<Route path="/signup">
+								<Signup />
 							</Route>
 						</Switch>
 						<div className="footer"></div>

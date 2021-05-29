@@ -1,0 +1,220 @@
+@import url("https://fonts.googleapis.com/css2?family=Alegreya+Sans:wght@100&display=swap");
+
+@import url("https://fonts.googleapis.com/css2?family=Alegreya+Sans:wght@100&family=Rajdhani:wght@300&display=swap");
+
+$mainColor: #33ff57; //#33ff57
+$secondColor: blueviolet;
+
+.ju-root {
+	margin: 0px;
+}
+
+html {
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+
+*,
+*:before,
+*:after {
+	-webkit-box-sizing: inherit;
+	-moz-box-sizing: inherit;
+	box-sizing: inherit;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+
+body {
+	height: 100vh;
+	width: 100vw;
+}
+
+#root {
+	height: 100%;
+	width: 100%;
+	max-width: 1200px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.ju-header {
+	background: $mainColor;
+	display: flex;
+	justify-content: center;
+	padding: 2rem;
+	width: 100%;
+	height: 10vh;
+	border-bottom: 2px solid black;
+}
+
+.ju-central-panel {
+	/* background-color: red; */
+	/* height: 60vh; */
+	display: flex;
+	/* justify-content: center; */
+	align-items: center;
+	flex-direction: column;
+	padding-top: 1.5rem;
+	padding-bottom: 1.5rem;
+}
+
+.ju-form-position {
+	width: 30vw;
+	min-width: 25vw;
+}
+
+.inline-name-check {
+	display: flex;
+	justify-content: space-between;
+	/* background-color: lightblue; */
+}
+
+.footer {
+	background: $mainColor;
+	height: 3rem;
+	width: 100%;
+}
+
+.ju-menu {
+	background: $mainColor;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	font-family: "Alegreya Sans", sans-serif;
+	font-size: 2rem;
+	padding: 1.5rem;
+}
+
+.font-search {
+	font-size: xx-large;
+	font-family: "Rajdhani", sans-serif;
+}
+
+.ju-title {
+	font-size: 2rem;
+	font-family: "Rajdhani", sans-serif;
+}
+
+.menu-item {
+	cursor: pointer;
+	border: 1px;
+	border: $mainColor solid; //Maybe I can delete this line, check.
+	padding: 1rem;
+	width: 100vw;
+	text-align: center;
+}
+
+.ju-item {
+	color: black;
+}
+
+.menu-item:hover {
+	color: $secondColor;
+}
+
+.menu-item:hover {
+	border-color: $secondColor;
+}
+
+.ju-font_title {
+	font-family: "Alegreya Sans", sans-serif;
+}
+
+.main-content {
+	background: $secondColor;
+	margin: 3%;
+	padding: 5%;
+	height: 100%;
+}
+
+.ju-new__class {
+	display: flex;
+	justify-content: center;
+	padding: 3rem;
+}
+
+.ju-form {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	padding: 3rem;
+	border: 2px solid black;
+	margin-left: 1rem;
+}
+
+.ju-groups {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	justify-content: space-between;
+}
+.ju-item-row {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	border: 1px solid black;
+	border-radius: 0.5rem;
+	padding: 1rem;
+	margin: 1rem;
+	width: 20rem;
+}
+
+.group_icon {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-evenly;
+	margin-left: 3rem;
+}
+
+.ju-required-input {
+	color: red;
+	font-size: 1rem;
+}
+
+/* Follow Bootstrap breakpoints.*/
+@media (min-width: 576px) {
+	/*For portrait phones*/
+	.ju-menu {
+		flex-direction: row;
+		justify-content: space-around;
+	}
+
+	.main-ju {
+		height: 100vh;
+	}
+
+	.menu-item {
+		width: auto;
+		padding: 2rem;
+	}
+}
+
+@media (min-width: 768px) {
+	/*For tablets*/
+	.ju-central-panel {
+		flex-direction: row;
+		justify-content: space-between;
+		height: 65vh;
+	}
+}
+
+@media (min-width: 992px) {
+	/*For laptops*/
+
+	.ju-menu {
+		font-size: 3rem;
+	}
+
+	.ju-title {
+		font-size: 3rem;
+	}
+}
+
+@media (min-width: 1200px) {
+	/*For larger devices*/
+}

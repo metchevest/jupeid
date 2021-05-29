@@ -3,15 +3,17 @@ import { Link } from "react-router-dom";
 
 const Menu = () => {
 	return (
-		<div className="menu-ju">
-			<Link to="/classes" className="blackie">
+		<div className="ju-menu">
+			<Link to="/classes" className="ju-item">
 				<div className="menu-item"> Classes</div>
 			</Link>
-
-			<Link to="/assistants" className="blackie">
+			<Link to="/payments" className="ju-item">
+				<div className="menu-item">Payments</div>
+			</Link>
+			<Link to="/assistants" className="ju-item">
 				<div className="menu-item"> Assistants</div>
 			</Link>
-			<Link to="/groups" className="blackie">
+			<Link to="/groups" className="ju-item">
 				<div className="menu-item">Grups</div>
 			</Link>
 		</div>
