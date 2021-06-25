@@ -1,18 +1,27 @@
-import React from "react";
+import React, { useState } from "react";
 import { useMutation } from "@apollo/client";
 
 import { SIGN_UP } from "../../queries/User/user";
+import { MAIL_IN_USE } from "../../variables";
 
-import UserForm from "./UserForm";
+import AuthForm from "./AuthForm";
+import history from "../../history";
 
 const Signup = () => {
-	const [signUp, { loading, error }] = useMutation(SIGN_UP, {
+	const [errors, setErrors] = useState({});
+
+	const [signUp, { loading }] = useMutation(SIGN_UP, {
 		onCompleted: (data) => {
-			//Aca tendria que hacer el login y redireccionar
-			console.log("En on complete de signUp");
-			console.log(data);
+			history.push("/");
 		},
+		onError: (data) => onError(data),
 	});
+
+	const onError = (data) => {
+		if (data.message === MAIL_IN_USE) {
+			setErrors({ field: "email", msg: MAIL_IN_USE });
+		}
+	};
 
 	const signUpUser = (e) => {
 		signUp({
@@ -23,19 +32,14 @@ const Signup = () => {
 		});
 	};
 
-	if (error) {
-		console.log("error en mutacion");
-		console.log(error);
-	}
 	return (
-		<div>
-			<UserForm
-				titleText="Sign Up"
-				buttonText="Sign Up"
-				loading={loading || false}
-				onSubmit={(e) => signUpUser(e)}
-			/>
-		</div>
+		<AuthForm
+			titleText="Sign Up"
+			buttonText="Sign Up"
+			errors={errors}
+			loading={loading || false}
+			onSubmit={(e) => signUpUser(e)}
+		/>
 	);
 };
 

@@ -1,12 +1,12 @@
 import {
 	ApolloClient,
-	ApolloLink,
 	createHttpLink,
 	from,
 	InMemoryCache,
 } from "@apollo/client";
 
 import { onError } from "@apollo/client/link/error";
+import { NOT_AUTHORIZED } from "../variables";
 
 const httpLink = createHttpLink({
 	uri: "http://localhost:4000/",
@@ -29,14 +29,20 @@ const httpLink = createHttpLink({
 
 const errorLink = onError(({ graphQLErrors, networkError, response }) => {
 	if (graphQLErrors)
-		graphQLErrors.forEach(({ message, location, path }) =>
+		graphQLErrors.forEach(({ message, location, path }) => {
 			console.log(
 				`[GraphQL error]: Message: ${message}, Location: ${location}, Path: ${path}`
-			)
-		);
+			);
+			console.log("el mensaje es ", message);
+			switch (message) {
+				case NOT_AUTHORIZED:
+					response.errors = null;
+					break;
+				default:
+					response.errors = null;
+			}
+		});
 	if (networkError) console.log(`[Network Error]: ${networkError}`);
-
-	// response.errors = null;
 });
 
 const cache = new InMemoryCache({
@@ -53,7 +59,7 @@ const cache = new InMemoryCache({
 						return incoming;
 					},
 				},
-				assistants: {
+				students: {
 					merge(existing = [], incoming) {
 						return incoming;
 					},

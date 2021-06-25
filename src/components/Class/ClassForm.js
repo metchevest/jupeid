@@ -1,7 +1,7 @@
 import React from "react";
 import { useFormik } from "formik";
 
-const ClassForm = (props) => {
+const ClassForm = ({ values, onSubmit, onCancel, titleText, buttonText }) => {
 	const validate = (values) => {
 		const errors = {};
 
@@ -28,16 +28,16 @@ const ClassForm = (props) => {
 
 	const formik = useFormik({
 		initialValues: {
-			name: props.values.name,
-			date: props.values.date,
-			hour: props.values.hour,
-			activity: props.values.activity,
+			name: values.name,
+			date: values.date,
+			hour: values.hour,
+			activity: values.activity,
 		},
 		enableReinitialize: true,
 		validate,
 		onSubmit: (values) => {
-			props.onSubmit({
-				id: props.values.id,
+			onSubmit({
+				id: values.id,
 				name: values.name,
 				date: values.date,
 				hour: values.hour,
@@ -48,13 +48,13 @@ const ClassForm = (props) => {
 	});
 
 	const renderCancel = () => {
-		if (props.onCancel) {
+		if (onCancel) {
 			return (
 				<div className="field">
 					<button
 						type="button"
 						className="ui button"
-						onClick={() => props.onCancel()}
+						onClick={() => onCancel()}
 					>
 						Cancel
 					</button>
@@ -65,7 +65,7 @@ const ClassForm = (props) => {
 
 	return (
 		<div className="ju-form">
-			<h4> {props.titleText} </h4>
+			<h4> {titleText} </h4>
 			<form onSubmit={formik.handleSubmit} className="ui form">
 				<div className="field">
 					<label htmlFor="name"> Name </label>
@@ -127,13 +127,22 @@ const ClassForm = (props) => {
 				<div className="field">
 					<button type="submit" className="ui button">
 						{" "}
-						{props.buttonText}
+						{buttonText}
 					</button>
 				</div>
 				{renderCancel()}
 			</form>
 		</div>
 	);
+};
+
+ClassForm.defaultProps = {
+	values: {
+		name: "",
+		hour: "",
+		activity: "",
+		date: "",
+	},
 };
 
 export default ClassForm;

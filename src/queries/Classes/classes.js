@@ -8,6 +8,9 @@ export const GET_ALL_CLASSES = gql`
 			date
 			hour
 			activity
+			students {
+				id
+			}
 		}
 	}
 `;
@@ -57,6 +60,33 @@ export const DELETE_CLASS = gql`
 		deleteClass(id: $id) {
 			id
 			name
+		}
+	}
+`;
+
+export const CLASS_STUDENTS = gql`
+	query getClass($id: ID!) {
+		getClass(id: $id) {
+			id
+			name
+			date
+			hour
+			activity
+			students {
+				id
+				name
+			}
+		}
+	}
+`;
+
+export const UPDATE_CLASS_STUDENTS = gql`
+	mutation updateClassStudents($classId: ID!, $students: [StudentInput]) {
+		addClassStudent(classId: $classId, students: $students) {
+			id
+			students {
+				id
+			}
 		}
 	}
 `;

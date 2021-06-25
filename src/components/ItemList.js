@@ -1,9 +1,9 @@
 import React from "react";
 
-const ItemList = (props) => {
+const ItemList = ({items}) => {
 
     const renderItems = () => {
-        return props.items.maps(item => {
+        return items.maps(item => {
             return(
             <div className="center-panel">
 			<div className="ui grid container">

@@ -1,16 +1,17 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useFormik } from "formik";
 
-const UserForm = (props) => {
+const AuthForm = ({
+	onSubmit,
+	errors,
+	titleText,
+	footer,
+	buttonText,
+	loading,
+}) => {
 	const validate = (values) => {
 		let errors = {};
 
-		if (props.errors.email !== "" && props.errors.password !== "") {
-			errors = { ...props.errors };
-			console.log("en el form");
-			console.log(errors);
-			console.log(props);
-		}
 		if (!values.email) {
 			errors.email = "Required";
 		} else if (
@@ -23,8 +24,10 @@ const UserForm = (props) => {
 			errors.password = "Required";
 		}
 
-		console.log("antes de volver errors vale");
-		console.log(errors);
+		// console.log("antes de volver errors vale", errors);
+
+		//let's call a callback to the parent component to let them validate the data with info from the server...
+
 		return errors;
 	};
 
@@ -36,17 +39,33 @@ const UserForm = (props) => {
 		enableReinitialize: true,
 		validate,
 		onSubmit: (values) => {
-			props.onSubmit({
+			onSubmit({
 				email: values.email,
 				password: values.password,
 			});
-			formik.resetForm({});
+			// formik.resetForm({});
 		},
 	});
 
+	useEffect(() => {
+		const { field, msg } = errors;
+		formik.setFieldError(field, msg);
+		formik.validateForm();
+		mailInput.focus();
+		mailInput.select();
+	}, [errors]);
+
+	let mailInput;
+
+	const renderFooter = () => {
+		if (footer) {
+			return footer();
+		}
+	};
+
 	return (
 		<div className="ju-form">
-			<h4> {props.titleText}</h4>
+			<h4> {titleText}</h4>
 			<form onSubmit={formik.handleSubmit} className="ui form">
 				<div className="field">
 					<label htmlFor="email"> E-mail</label>
@@ -56,6 +75,10 @@ const UserForm = (props) => {
 						type="text"
 						autoComplete="off"
 						placeholder="E-mail"
+						autoFocus
+						ref={(input) => {
+							mailInput = input;
+						}}
 						onChange={formik.handleChange}
 						value={formik.values.email}
 						onBlur={formik.handleBlur}
@@ -83,14 +106,15 @@ const UserForm = (props) => {
 				<div className="field">
 					<button
 						type="submit"
-						className={`ui button ${props.loading ? "loading" : ""}`}
+						className={`ui button ${loading ? "loading" : ""}`}
 					>
-						{props.buttonText}
+						{buttonText}
 					</button>
 				</div>
+				{renderFooter()}
 			</form>
 		</div>
 	);
 };
 
-export default UserForm;
+export default AuthForm;

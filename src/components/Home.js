@@ -1,7 +1,7 @@
 import React from "react";
-import { useQuery, gql } from "@apollo/client";
+import { useQuery } from "@apollo/client";
+import { Link } from "react-router-dom";
 
-import SignUp from "./Auth/SignUp";
 import SignIn from "./Auth/SignIn";
 import { GET_ALL_USERS } from "../queries/User/user";
 
@@ -29,6 +29,10 @@ const Home = () => {
 		<div className="ju-central-panel">
 			<div>
 				<h3> Welcome to Jupeid !!! </h3>
+				<h4>
+					{" "}
+					New user ? <Link to="/tour"> Take the tour...</Link>
+				</h4>
 				<p> List of users in the app, just for testing</p>
 				{renderUsers()}
 			</div>

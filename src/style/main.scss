@@ -105,12 +105,25 @@ body {
 	border: 1px;
 	border: $mainColor solid; //Maybe I can delete this line, check.
 	padding: 1rem;
-	width: 100vw;
+	width: 100%;
 	text-align: center;
 }
 
 .ju-item {
 	color: black;
+}
+
+.ju-item-selection {
+	border: 1px solid black;
+	border-radius: 0.5rem;
+	margin: 1rem;
+	padding: 0.5rem;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.ju--selected {
+	background-color: $secondColor;
 }
 
 .menu-item:hover {
@@ -174,6 +187,10 @@ body {
 .ju-required-input {
 	color: red;
 	font-size: 1rem;
+}
+
+.ju-list_selection-item {
+	border: 1px solid black;
 }
 
 /* Follow Bootstrap breakpoints.*/

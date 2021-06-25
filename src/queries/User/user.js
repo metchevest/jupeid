@@ -40,17 +40,17 @@ export const PROFILE = gql`
 			name
 			email
 		}
-		assistants {
-			id
-			name
-			email
-		}
 		classes {
 			id
 			name
 			date
 			hour
 			activity
+		}
+		students {
+			id
+			name
+			email
 		}
 		groups {
 			id

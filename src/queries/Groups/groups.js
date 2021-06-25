@@ -38,3 +38,39 @@ export const DELETE_GROUP = gql`
 		}
 	}
 `;
+
+export const GET_GROUP = gql`
+	query getGroup($id: ID!) {
+		getGroup(id: $id) {
+			id
+			name
+			cost
+			students {
+				id
+			}
+		}
+	}
+`;
+
+export const ADD_STUDENTS_TO_GROUP = gql`
+	mutation addStudentsToGroup($groupId: ID!, $students: [StudentInput]) {
+		addStudentsToGroup(groupId: $groupId, students: $students) {
+			id
+			students {
+				id
+				name
+			}
+		}
+	}
+`;
+
+export const DELETE_STUDENT_FROM_GROUP = gql`
+	mutation deleteStudentFromGroup($groupId: ID!, $studentId: ID!) {
+		deleteStudentFromGroup(groupId: $groupId, studentId: $studentId) {
+			id
+			students {
+				id
+			}
+		}
+	}
+`;

@@ -1,44 +1,20 @@
 import React, { useState } from "react";
-import { useQuery, useMutation } from "@apollo/client";
+import { useQuery } from "@apollo/client";
+import { Link } from "react-router-dom";
 
 import GroupNew from "./GroupNew";
 import GroupForm from "./GroupForm";
 
 import { GET_ALL_GROUPS } from "../../queries/Groups/groups";
-import { DELETE_GROUP } from "../../queries/Groups/groups";
-import { EDIT_GROUP } from "../../queries/Groups/groups";
+import { useGroupHook } from "../Hooks/useGroupHook";
 
 const Groups = () => {
 	const { loading, error, data } = useQuery(GET_ALL_GROUPS, {
 		fetchPolicy: "cache-first",
 	});
 
-	const [deleteGroup] = useMutation(DELETE_GROUP, {
-		update(cache, { data: { deleteGroup: groupDeleted } }) {
-			const existingGroups = cache.readQuery({
-				query: GET_ALL_GROUPS,
-			});
+	const [, deleteGroup, updateGroup] = useGroupHook();
 
-			cache.writeQuery({
-				query: GET_ALL_GROUPS,
-				data: {
-					groups: existingGroups?.groups.filter(
-						(group) => group.id !== groupDeleted.id
-					),
-				},
-			});
-
-			const idNormalized = cache.identify({
-				id: groupDeleted.id,
-				__typename: "Group",
-			});
-
-			cache.evict({ id: idNormalized });
-			cache.gc();
-		},
-	});
-
-	const [updateGroup] = useMutation(EDIT_GROUP);
 	const [addEditState, setaddEditState] = useState("add");
 	const [edit, setEdit] = useState();
 
@@ -57,7 +33,7 @@ const Groups = () => {
 	const renderGroups = () => {
 		return data.groups.map(({ id, cost, name }) => {
 			return (
-				<div key={id} className="ju-item-row">
+				<Link to={`/group/${id}`} key={id} className="ju-item-row">
 					<div className="inline-name-check">
 						{name} {id}
 					</div>
@@ -72,7 +48,7 @@ const Groups = () => {
 							<i className="trash alternate outline icon"> </i>
 						</div>
 					</div>
-				</div>
+				</Link>
 			);
 		});
 	};

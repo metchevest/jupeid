@@ -10,8 +10,8 @@ const Menu = () => {
 			<Link to="/payments" className="ju-item">
 				<div className="menu-item">Payments</div>
 			</Link>
-			<Link to="/assistants" className="ju-item">
-				<div className="menu-item"> Assistants</div>
+			<Link to="/students" className="ju-item">
+				<div className="menu-item"> Students</div>
 			</Link>
 			<Link to="/groups" className="ju-item">
 				<div className="menu-item">Grups</div>

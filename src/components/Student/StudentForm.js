@@ -1,7 +1,7 @@
 import React from "react";
 import { useFormik } from "formik";
 
-const AssistantForm = (props) => {
+const StudentForm = ({ values, buttonText, onCancel, titleText }) => {
 	const validate = (values) => {
 		const errors = {};
 
@@ -22,14 +22,14 @@ const AssistantForm = (props) => {
 
 	const formik = useFormik({
 		initialValues: {
-			name: props.values.name,
-			email: props.values.email,
+			name: values.name,
+			email: values.email,
 		},
 		enableReinitialize: true,
 		validate,
 		onSubmit: (values) => {
-			props.onSubmit({
-				id: props.values.id,
+			onSubmit({
+				id: values.id,
 				name: values.name,
 				email: values.email,
 			});
@@ -38,13 +38,13 @@ const AssistantForm = (props) => {
 	});
 
 	const renderCancel = () => {
-		if (props.onCancel) {
+		if (onCancel) {
 			return (
 				<div className="field">
 					<button
 						type="button"
 						className="ui button"
-						onClick={() => props.onCancel()}
+						onClick={() => onCancel()}
 					>
 						Cancel
 					</button>
@@ -55,7 +55,7 @@ const AssistantForm = (props) => {
 
 	return (
 		<div className="ju-form">
-			<h4> {props.titleText}</h4>
+			<h4> {titleText}</h4>
 			<form onSubmit={formik.handleSubmit} className="ui form">
 				<div className="field">
 					<label htmlFor="name"> Name </label>
@@ -63,6 +63,7 @@ const AssistantForm = (props) => {
 						id="name"
 						name="name"
 						type="text"
+						// autoFocus
 						autoComplete="off"
 						placeholder="Enter the name"
 						onChange={formik.handleChange}
@@ -91,7 +92,7 @@ const AssistantForm = (props) => {
 				</div>
 				<div className="field">
 					<button type="submit" className="ui button">
-						{props.buttonText}
+						{buttonText}
 					</button>
 				</div>
 				{renderCancel()}
@@ -100,4 +101,10 @@ const AssistantForm = (props) => {
 	);
 };
 
-export default AssistantForm;
+StudentForm.defaultProps = {
+	values: {
+		name: "",
+		email: "",
+	},
+};
+export default StudentForm;

@@ -1,12 +1,10 @@
 import React from "react";
 import { Route } from "react-router-dom";
 
-// import { useAuthToken } from "./AuthToken";
 import Unauthorized from "./Unauthorized";
 import { useUserQuery } from "./userQuery";
 
-const ProtectedRoute = ({ path: path, component: Component, ...rest }) => {
-	// const [authToken] = useAuthToken();
+const ProtectedRoute = ({ path, component: Component, ...rest }) => {
 	const userData = useUserQuery();
 
 	if (userData.data) {
