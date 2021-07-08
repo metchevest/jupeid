@@ -5,7 +5,8 @@ import {
 	ADD_CLASS,
 	DELETE_CLASS,
 	EDIT_CLASS,
-	UPDATE_CLASS_STUDENTS,
+	ADD_STUDENTS_TO_CLASS,
+	DELETE_STUDENT_FROM_CLASS,
 } from "../../queries/Classes/classes";
 
 export const useClassHook = () => {
@@ -27,7 +28,7 @@ export const useClassHook = () => {
 		},
 	});
 
-	const [updateClassStudents] = useMutation(UPDATE_CLASS_STUDENTS);
+	const [addStudentsToClass] = useMutation(ADD_STUDENTS_TO_CLASS);
 
 	const [deleteClass] = useMutation(DELETE_CLASS, {
 		update(cache, { data: { deleteClass: classDeleted } }) {
@@ -56,5 +57,13 @@ export const useClassHook = () => {
 
 	const [updateClass] = useMutation(EDIT_CLASS);
 
-	return [createClass, updateClassStudents, deleteClass, updateClass];
+	const [deleteStudentFromClass] = useMutation(DELETE_STUDENT_FROM_CLASS);
+
+	return [
+		createClass,
+		addStudentsToClass,
+		deleteClass,
+		updateClass,
+		deleteStudentFromClass,
+	];
 };

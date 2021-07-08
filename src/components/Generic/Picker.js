@@ -1,17 +1,16 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 import Modal from "./Modal";
 import { useSelectHook } from "../Hooks/useSelectHook";
 
-const Picker = ({ items, title, onDismiss, onSave }) => {
-	const [selected, clicked_item, reset] = useSelectHook();
+const Picker = ({ items, title, onDismiss, onSave, allSelected }) => {
+	const [selected, clicked_item, reset, addAll] = useSelectHook();
 
 	const renderItems = () => {
 		return items.map((item) => {
 			const className = selected.includes(item)
 				? "ju-item-selection ju--selected"
 				: "ju-item-selection";
-			console.log("el nombre de la clases es ", className);
 			return (
 				<div
 					key={item.id}
@@ -40,14 +39,43 @@ const Picker = ({ items, title, onDismiss, onSave }) => {
 		);
 	};
 
-	return (
-		<Modal
-			title={title}
-			content={renderItems()}
-			onDismiss={() => onDismiss()}
-			actions={renderAction()}
-		/>
-	);
+	const renderEmptyActions = () => {
+		return (
+			<button onClick={() => onDismiss()} className="ui primary button">
+				Cancel
+			</button>
+		);
+	};
+
+	useEffect(() => {
+		if (allSelected) {
+			addAll(items);
+		}
+	}, []);
+
+	if (items.length > 0) {
+		return (
+			<Modal
+				title={title}
+				content={renderItems()}
+				onDismiss={onDismiss}
+				actions={renderAction()}
+			/>
+		);
+	} else {
+		return (
+			<Modal
+				title={title}
+				content="There are no elements to show."
+				onDismiss={onDismiss}
+				actions={renderEmptyActions()}
+			/>
+		);
+	}
+};
+
+Picker.defaultProps = {
+	allSelected: false,
 };
 
 export default Picker;

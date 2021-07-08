@@ -1,6 +1,7 @@
 import {
 	ApolloClient,
 	createHttpLink,
+	defaultDataIdFromObject,
 	from,
 	InMemoryCache,
 } from "@apollo/client";
@@ -64,6 +65,29 @@ const cache = new InMemoryCache({
 						return incoming;
 					},
 				},
+				payments: {
+					merge(existing = [], incoming) {
+						return incoming;
+					},
+				},
+				group(_, { args, toReference }) {
+					return toReference({
+						__typename: "Group",
+						id: args.id,
+					});
+				},
+				class(_, { args, toReference }) {
+					return toReference({
+						__typename: "Class",
+						id: args.id,
+					});
+				},
+				student(_, { args, toReference }) {
+					return toReference({
+						__typename: "Student",
+						id: args.id,
+					});
+				},
 			},
 		},
 		Group: {
@@ -72,9 +96,26 @@ const cache = new InMemoryCache({
 		Class: {
 			keyFields: ["id"],
 		},
-		Affiliate: {
+		Student: {
 			keyFields: ["id"],
 		},
+		Payment: {
+			keyField: ["id"],
+		},
+		// dataIdFromObject(responseObject) {
+		// 	switch (responseObject.__typename) {
+		// 		case "Class":
+		// 			return `Class:${responseObject.id}`;
+		// 		case "Group":
+		// 			return `Group:${responseObject.id}`;
+		// 		case "Student":
+		// 			return `Student:${responseObject.id}`;
+		// 		case "Payment":
+		// 			return `Payment:${responseObject.id}`;
+		// 		default:
+		// 			return defaultDataIdFromObject(responseObject);
+		// 	}
+		// },
 	},
 });
 

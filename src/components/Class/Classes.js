@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useQuery } from "@apollo/client";
 import { Link } from "react-router-dom";
+import Tour from "reactour";
 
 import ClassNew from "./ClassNew";
 import ClassForm from "./ClassForm";
@@ -8,10 +9,14 @@ import ClassForm from "./ClassForm";
 import { GET_ALL_CLASSES } from "../../queries/Classes/classes";
 import { useClassHook } from "../Hooks/useClassHook";
 
-const Classes = (props) => {
+import { classSteps } from "../Tour/steps";
+
+const Classes = () => {
 	const { loading, error, data } = useQuery(GET_ALL_CLASSES, {
 		fetchPolicy: "cache-first",
 	});
+
+	const [isTourOpen, setIsTourOpen] = useState(true);
 
 	const [, , deleteClass, updateClass] = useClassHook();
 
@@ -33,13 +38,10 @@ const Classes = (props) => {
 	const renderClasses = () => {
 		return data.classes.map(({ id, name, hour, date, activity }) => {
 			return (
-				<Link key={id} className="ju-item-row" to={`/class/${id}`}>
-					<div className="inline-name-check">
-						{name} {id}
-					</div>
-					<div>
-						<i className="dollar sign icon"></i> {}
-					</div>
+				<div className="ju-item-row" key={id}>
+					<Link to={`/class/${id}`}>
+						<div className="inline-name-check">{name}</div>
+					</Link>
 					<div className="group_icon">
 						<div onClick={() => editClass(id, name, hour, date, activity)}>
 							<i className="edit outline icon"></i>
@@ -48,7 +50,7 @@ const Classes = (props) => {
 							<i className="trash alternate outline icon"> </i>
 						</div>
 					</div>
-				</Link>
+				</div>
 			);
 		});
 	};
@@ -86,12 +88,17 @@ const Classes = (props) => {
 	return (
 		<div className="ju-central-panel">
 			<div>
-				<h1 className="ju-font_title">Your Classes</h1>
+				<h1 className="ju-font_title first-step-class">Your Classes</h1>
 				<div className="ju-groups"> {renderClasses()}</div>
 			</div>
 			<div className="ju-form-position">
 				{addEditState === "add" ? <ClassNew /> : renderEdit()}
 			</div>
+			<Tour
+				steps={classSteps}
+				isOpen={isTourOpen}
+				onRequestClose={() => setIsTourOpen(false)}
+			/>
 		</div>
 	);
 };

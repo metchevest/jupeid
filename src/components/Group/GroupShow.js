@@ -1,34 +1,40 @@
 import React, { useState } from "react";
 import { useQuery } from "@apollo/client";
+import { Link } from "react-router-dom";
 
-import Picker from "../Helpers/Picker";
-import ListSecondaryItems from "../Helpers/ListSecondaryItems";
+import Picker from "../Generic/Picker";
+import ListSecondaryItems from "../Generic/ListSecondaryItems";
 import { filterToPicker } from "../Helpers/helperFunctions";
 import { GET_ALL_STUDENTS } from "../../queries/Students/students";
-import { GET_GROUP } from "../../queries/Groups/groups";
+import { GET_GROUP, GET_GROUP_DETAILS } from "../../queries/Groups/groups";
 import { useGroupHook } from "../Hooks/useGroupHook";
+import PaymentForMany from "../Generic/PaymentForMany";
 
 const GroupShow = ({ match }) => {
-	const groupId = match.params.id;
+	const id = match.params.id;
 
 	const { data, loading, error } = useQuery(GET_GROUP, {
 		variables: {
-			id: groupId,
+			id,
 		},
 		fetchPolicy: "cache-first",
 	});
+
+	const { data: dataDetails, loading: loadingDetails } = useQuery(
+		GET_GROUP_DETAILS,
+		{
+			variables: {
+				id,
+			},
+		}
+	);
 
 	const { data: dataAllStudents } = useQuery(GET_ALL_STUDENTS);
 
 	const [addStudents, setAddStudents] = useState(false);
 
-	const [
-		,
-		deleteGroup,
-		updateGroup,
-		addStudentsToGroup,
-		deleteStudentFromGroup,
-	] = useGroupHook();
+	const [, , updateGroup, addStudentsToGroup, deleteStudentFromGroup] =
+		useGroupHook();
 
 	if (loading) {
 		return "Loading...";
@@ -38,10 +44,12 @@ const GroupShow = ({ match }) => {
 		return "Error..";
 	}
 
-	const renderAffiliates = () => {
-		return data.getGroup.students.map((student) => {
-			return <div key={student.id}> Student id : {student.id}</div>;
-		});
+	const renderStudents = () => {
+		if (!loadingDetails) {
+			return dataDetails.group.students.map((student) => {
+				return <div key={student.id}> Student id : {student.id}</div>;
+			});
+		}
 	};
 
 	const toggleSelect = () => {
@@ -49,11 +57,9 @@ const GroupShow = ({ match }) => {
 	};
 
 	const deleteStudentGroup = (studentId) => {
-		console.log("groupId", groupId);
-		console.log("studentId", studentId);
 		deleteStudentFromGroup({
 			variables: {
-				groupId,
+				groupId: id,
 				studentId,
 			},
 		});
@@ -66,32 +72,20 @@ const GroupShow = ({ match }) => {
 
 		addStudentsToGroup({
 			variables: {
-				groupId,
+				groupId: id,
 				students: idStudents,
 			},
 		});
 	};
 
-	return (
-		<div>
-			<p> This is GroupShow </p>
-			<p> Name: {data.getGroup.name} </p>
-			<p>Cost: {data.getGroup.cost} </p>
-			<div>{renderAffiliates()}</div>
-			<button onClick={() => deleteGroup(groupId)}> Delete Group</button>
-			<button
-				onClick={() => {
-					toggleSelect();
-				}}
-			>
-				Add Student
-			</button>
-			<div>
-				{addStudents ? (
+	const renderAddStudents = () => {
+		if (addStudents) {
+			return (
+				<div>
 					<Picker
 						items={filterToPicker(
 							dataAllStudents.students,
-							data.getGroup.students
+							dataDetails.group.students
 						)}
 						title="Select the students to add:"
 						onSave={(selectedStudents) => {
@@ -102,15 +96,49 @@ const GroupShow = ({ match }) => {
 							toggleSelect();
 						}}
 					/>
-				) : null}
-			</div>
-			<div>
-				<h2> Group's Students</h2>
-				<ListSecondaryItems
-					items={data.getGroup.students}
-					onDelete={deleteStudentGroup}
-				/>
-			</div>
+					;
+				</div>
+			);
+		}
+	};
+
+	const renderGroupDetails = () => {
+		if (!loadingDetails) {
+			return (
+				<div>
+					<PaymentForMany
+						items={dataDetails.group.students}
+						title="Set Payment for the group"
+					/>
+					<div>
+						<h2> Group's Students</h2>
+						<ListSecondaryItems
+							items={dataDetails.group.students}
+							onDelete={deleteStudentGroup}
+						/>
+					</div>
+					{renderAddStudents()}
+				</div>
+			);
+		}
+	};
+
+	return (
+		<div>
+			<p> This is GroupShow </p>
+			<p> Name: {data.group.name} </p>
+			<p>Cost: {data.group.cost} </p>
+			<div>{renderStudents()}</div>
+			<Link to={`/group/delete/${data.group.id}`}>Delete Group</Link>
+			<button
+				onClick={() => {
+					toggleSelect();
+				}}
+			>
+				Add Student
+			</button>
+
+			{renderGroupDetails()}
 		</div>
 	);
 };

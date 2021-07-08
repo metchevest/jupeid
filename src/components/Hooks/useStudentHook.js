@@ -6,8 +6,8 @@ import {
 	EDIT_STUDENT,
 	UPDATE_STUDENT_GROUPS,
 	UPDATE_STUDENT_CLASSES,
-	DELETE_STUDENT_GROUP,
-	DELETE_STUDENT_CLASS,
+	DELETE_GROUP_FROM_STUDENT,
+	DELETE_CLASS_FROM_STUDENT,
 	DELETE_STUDENT,
 } from "../../queries/Students/students";
 
@@ -30,13 +30,13 @@ export const useStudentHook = () => {
 		},
 	});
 
-	const [deleteStudentGroup] = useMutation(DELETE_STUDENT_GROUP, {
+	const [deleteGroupFromStudent] = useMutation(DELETE_GROUP_FROM_STUDENT, {
 		onCompleted: (date) => {
 			console.log("En on complete de deleteGroup", date);
 		},
 	});
 
-	const [deleteStudentClass] = useMutation(DELETE_STUDENT_CLASS, {
+	const [deleteClassFromStudent] = useMutation(DELETE_CLASS_FROM_STUDENT, {
 		onCompleted: (data) => {
 			console.log("On delelete Class", data);
 		},
@@ -81,8 +81,8 @@ export const useStudentHook = () => {
 		create,
 		updateStudentGroups,
 		updateStudentClasses,
-		deleteStudentClass,
-		deleteStudentGroup,
+		deleteClassFromStudent,
+		deleteGroupFromStudent,
 		deletestudent,
 		updateStudent,
 	];

@@ -13,12 +13,13 @@ const Students = () => {
 		fetchPolicy: "cache-first",
 	});
 
+	console.log("data en Students.js valee", data);
 	const [addEditState, setAddEditState] = useState("add");
 	const [edit, setEdit] = useState();
 
 	const [, , , , , deleteStudent, updateStudent] = useStudentHook();
 
-	const deleteAnStudent = (id) => {
+	const deleteAStudent = (id) => {
 		deleteStudent({
 			variables: { id: parseInt(id) },
 		});
@@ -34,20 +35,19 @@ const Students = () => {
 	const renderStudents = () => {
 		return data.students.map(({ id, name, email }) => {
 			return (
-				<Link key={id} className="ju-item-row" to={`/student/${id}`}>
-					<div className="inline-name-check">
-						{name} {id} {email}
-					</div>
-
+				<div key={id} className="ju-item-row">
+					<Link to={`/student/${id}`}>
+						<div className="inline-name-check">{name}</div>
+					</Link>
 					<div className="group_icon">
 						<div onClick={() => editStudent(id, name, email)}>
 							<i className="edit outline icon"></i>
 						</div>
-						<div onClick={() => deleteAnStudent(id)}>
+						<div onClick={() => deleteAStudent(id)}>
 							<i className="trash alternate outline icon"> </i>
 						</div>
 					</div>
-				</Link>
+				</div>
 			);
 		});
 	};

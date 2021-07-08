@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { useMutation } from "@apollo/client";
 import { Link } from "react-router-dom";
 
@@ -14,7 +14,6 @@ const SignIn = () => {
 		refetchQueries: PROFILE,
 		onCompleted: (data) => {
 			if (data.logIn) {
-				console.log("on Complete en useMutation LOG_in", data);
 				history.push("/students");
 			}
 		},

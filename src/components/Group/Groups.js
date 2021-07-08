@@ -26,6 +26,7 @@ const Groups = () => {
 	};
 
 	const editGroup = (id, cost, name) => {
+		console.log("editGroup", id);
 		setEdit({ id, cost, name });
 		setaddEditState("edit");
 	};
@@ -33,10 +34,10 @@ const Groups = () => {
 	const renderGroups = () => {
 		return data.groups.map(({ id, cost, name }) => {
 			return (
-				<Link to={`/group/${id}`} key={id} className="ju-item-row">
-					<div className="inline-name-check">
-						{name} {id}
-					</div>
+				<div className="ju-item-row" key={id}>
+					<Link to={`/group/${id}`}>
+						<div className="inline-name-check">{name}</div>
+					</Link>
 					<div>
 						<i className="dollar sign icon"></i> {cost}
 					</div>
@@ -48,12 +49,15 @@ const Groups = () => {
 							<i className="trash alternate outline icon"> </i>
 						</div>
 					</div>
-				</Link>
+				</div>
 			);
 		});
 	};
 
 	const onSubmitEdit = ({ id, name, cost }) => {
+		console.log("id", id);
+		console.log("name", name);
+		console.log("cost", cost);
 		setaddEditState("add");
 		updateGroup({ variables: { id, name, cost: parseFloat(cost) } });
 	};
@@ -63,6 +67,7 @@ const Groups = () => {
 	};
 
 	const renderEdit = () => {
+		console.log("renderEdit", edit);
 		return (
 			<GroupForm
 				titleText="Edit Group"

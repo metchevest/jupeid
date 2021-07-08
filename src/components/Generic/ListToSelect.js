@@ -1,7 +1,7 @@
 import React from "react";
 
 import useSelectHook from "../Hooks/useSelectHook";
-import ListSelection from "../Helpers/ListSelection";
+import ListSelection from "../Generic/ListSelection";
 
 const ListToselect = ({ items, onSave }) => {
 	const [selected, add, reset, deleteItem] = useSelectHook();

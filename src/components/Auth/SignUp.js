@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { useMutation } from "@apollo/client";
 
 import { SIGN_UP } from "../../queries/User/user";
@@ -6,12 +6,20 @@ import { MAIL_IN_USE } from "../../variables";
 
 import AuthForm from "./AuthForm";
 import history from "../../history";
+import { MessageContext } from "../Context/MessageContext";
 
 const Signup = () => {
 	const [errors, setErrors] = useState({});
 
+	const value = useContext(MessageContext);
+
 	const [signUp, { loading }] = useMutation(SIGN_UP, {
-		onCompleted: (data) => {
+		onCompleted: () => {
+			value.setMessage({
+				top: "Sign Up Succefully",
+				bottom: "Please, Log in to continue",
+				positive: true,
+			});
 			history.push("/");
 		},
 		onError: (data) => onError(data),

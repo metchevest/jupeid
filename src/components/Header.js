@@ -3,13 +3,14 @@ import { Link } from "react-router-dom";
 
 import Menu from "./Menu";
 import AuthGate from "./Auth/AuthGate";
+import MessageBoard from "./MessageBoard";
 
-const Header = () => {
+const Header = ({ message }) => {
 	return (
 		<div>
 			<div className="ju-header">
 				<div>
-					<Link to="/" className="ju-title">
+					<Link to="/" className="ju-title first-step">
 						{" "}
 						Jupeid ?
 					</Link>
@@ -20,6 +21,7 @@ const Header = () => {
 			</div>
 
 			<Menu />
+			<MessageBoard />
 		</div>
 	);
 };

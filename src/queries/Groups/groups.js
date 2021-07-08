@@ -1,31 +1,57 @@
 import { gql } from "@apollo/client";
 
+export const GROUP_FRAGMENT = gql`
+	fragment GroupFields on Group {
+		id
+		name
+		cost
+	}
+`;
+
 export const GET_ALL_GROUPS = gql`
+	${GROUP_FRAGMENT}
 	query getAllGroups {
 		groups {
+			...GroupFields
+		}
+	}
+`;
+
+export const GET_GROUP = gql`
+	${GROUP_FRAGMENT}
+	query getGroup($id: ID!) {
+		group(id: $id) {
+			...GroupFields
+		}
+	}
+`;
+
+export const GET_GROUP_DETAILS = gql`
+	query getGroup($id: ID!) {
+		group(id: $id) {
 			id
-			name
-			cost
+			students {
+				id
+				name
+			}
 		}
 	}
 `;
 
 export const ADD_GROUP = gql`
+	${GROUP_FRAGMENT}
 	mutation createGroup($name: String!, $cost: Float!) {
 		createGroup(name: $name, cost: $cost) {
-			id
-			name
-			cost
+			...GroupFields
 		}
 	}
 `;
 
 export const EDIT_GROUP = gql`
+	${GROUP_FRAGMENT}
 	mutation editGroup($id: ID!, $name: String!, $cost: Float!) {
 		editGroup(id: $id, name: $name, cost: $cost) {
-			id
-			name
-			cost
+			...GroupFields
 		}
 	}
 `;
@@ -34,20 +60,6 @@ export const DELETE_GROUP = gql`
 	mutation deleteGroup($id: ID!) {
 		deleteGroup(id: $id) {
 			id
-			name
-		}
-	}
-`;
-
-export const GET_GROUP = gql`
-	query getGroup($id: ID!) {
-		getGroup(id: $id) {
-			id
-			name
-			cost
-			students {
-				id
-			}
 		}
 	}
 `;

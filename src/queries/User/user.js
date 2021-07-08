@@ -1,9 +1,15 @@
 import { gql } from "@apollo/client";
 
+import { STUDENT_FRAGMENT } from "../Students/students";
+import { PAYMENT_FRAGMENT } from "../Payments/payments";
+import { CLASS_FRAGMENT } from "../Classes/classes";
+import { GROUP_FRAGMENT } from "../Groups/groups";
+
 export const LOG_IN = gql`
 	mutation signIn($email: String!, $password: String!) {
 		logIn(email: $email, password: $password) {
 			token
+			tour
 		}
 	}
 `;
@@ -35,27 +41,27 @@ export const GET_ALL_USERS = gql`
 `;
 
 export const PROFILE = gql`
+	${CLASS_FRAGMENT}
+	${PAYMENT_FRAGMENT}
+	${STUDENT_FRAGMENT}
+	${GROUP_FRAGMENT}
 	query profile {
 		profile {
 			name
 			email
-		}
-		classes {
-			id
-			name
-			date
-			hour
-			activity
+			tour
 		}
 		students {
-			id
-			name
-			email
+			...StudentFields
 		}
 		groups {
-			id
-			name
-			cost
+			...GroupFields
+		}
+		payments {
+			...PaymentFields
+		}
+		classes {
+			...ClassFields
 		}
 	}
 `;

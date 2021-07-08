@@ -14,12 +14,13 @@ const Payments = () => {
 	}
 
 	const renderPayments = () => {
-		return data.getPayments.map((aPayment) => {
+		return data.payments.map((aPayment) => {
 			return (
 				<div key={aPayment.id}>
-					{aPayment.student.id}
-					{aPayment.id}
-					{aPayment.month}
+					StudentId: {aPayment.student.id}
+					<br></br>
+					Payment Id: {aPayment.id} <br></br>
+					Month: {aPayment.month} <br></br>
 				</div>
 			);
 		});

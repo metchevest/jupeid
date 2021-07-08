@@ -24,10 +24,6 @@ const AuthForm = ({
 			errors.password = "Required";
 		}
 
-		// console.log("antes de volver errors vale", errors);
-
-		//let's call a callback to the parent component to let them validate the data with info from the server...
-
 		return errors;
 	};
 
@@ -43,7 +39,6 @@ const AuthForm = ({
 				email: values.email,
 				password: values.password,
 			});
-			// formik.resetForm({});
 		},
 	});
 

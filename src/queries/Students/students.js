@@ -1,31 +1,62 @@
 import { gql } from "@apollo/client";
 
+export const STUDENT_FRAGMENT = gql`
+	fragment StudentFields on Student {
+		id
+		name
+		email
+	}
+`;
+
 export const GET_ALL_STUDENTS = gql`
+	${STUDENT_FRAGMENT}
 	query getStudents {
 		students {
+			...StudentFields
+		}
+	}
+`;
+
+export const GET_STUDENT = gql`
+	${STUDENT_FRAGMENT}
+	query getStudent($id: ID) {
+		student(id: $id) {
+			...StudentFields
+		}
+	}
+`;
+
+export const GET_STUDENT_DETAILS = gql`
+	query getStudent($id: ID) {
+		student(id: $id) {
 			id
-			name
-			email
+			groups {
+				id
+			}
+			payments {
+				id
+			}
+			classes {
+				id
+			}
 		}
 	}
 `;
 
 export const ADD_STUDENT = gql`
+	${STUDENT_FRAGMENT}
 	mutation createStudent($name: String!, $email: String!) {
 		createStudent(name: $name, email: $email) {
-			id
-			name
-			email
+			...StudentFields
 		}
 	}
 `;
 
 export const EDIT_STUDENT = gql`
+	${STUDENT_FRAGMENT}
 	mutation editStudent($id: ID!, $name: String!, $email: String!) {
 		editStudent(id: $id, name: $name, email: $email) {
-			id
-			name
-			email
+			...StudentFields
 		}
 	}
 `;
@@ -34,31 +65,6 @@ export const DELETE_STUDENT = gql`
 	mutation delelteStudent($id: ID!) {
 		deleteStudent(id: $id) {
 			id
-			name
-		}
-	}
-`;
-
-export const GET_STUDENT = gql`
-	query getStudent($id: ID!) {
-		getStudent(id: $id) {
-			id
-			email
-			name
-			groups {
-				id
-				name
-				cost
-			}
-			payments {
-				id
-				amount
-				month
-			}
-			classes {
-				id
-				name
-			}
 		}
 	}
 `;
@@ -87,9 +93,9 @@ export const UPDATE_STUDENT_CLASSES = gql`
 	}
 `;
 
-export const DELETE_STUDENT_GROUP = gql`
-	mutation deleteStudentGroup($studentId: ID!, $groupId: ID!) {
-		deleteStudentGroup(studentId: $studentId, groupId: $groupId) {
+export const DELETE_GROUP_FROM_STUDENT = gql`
+	mutation deleteGroupFromStudent($studentId: ID!, $groupId: ID!) {
+		deleteGroupFromStudent(studentId: $studentId, groupId: $groupId) {
 			id
 			groups {
 				id
@@ -98,9 +104,9 @@ export const DELETE_STUDENT_GROUP = gql`
 	}
 `;
 
-export const DELETE_STUDENT_CLASS = gql`
-	mutation deleteStudentClass($studentId: ID!, $classId: ID!) {
-		deleteStudentClass(studentId: $studentId, classId: $classId) {
+export const DELETE_CLASS_FROM_STUDENT = gql`
+	mutation deleteClassFromStudent($studentId: ID!, $classId: ID!) {
+		deleteClassFromStudent(studentId: $studentId, classId: $classId) {
 			id
 			classes {
 				id

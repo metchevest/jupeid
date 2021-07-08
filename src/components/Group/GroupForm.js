@@ -20,6 +20,7 @@ const GroupForm = ({ values, onSubmit, onCancel, titleText, buttonText }) => {
 
 	const formik = useFormik({
 		initialValues: {
+			id: values.id,
 			name: values.name,
 			cost: values.cost,
 		},
