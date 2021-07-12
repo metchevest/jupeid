@@ -37,7 +37,8 @@ const ClassShow = ({ match }) => {
 		}
 	);
 
-	const { data: dataStudents } = useQuery(GET_ALL_STUDENTS);
+	const { data: dataStudents, loading: loadingAllStudents } =
+		useQuery(GET_ALL_STUDENTS);
 
 	if (loading) {
 		return <p> Loading... </p>;
@@ -53,13 +54,17 @@ const ClassShow = ({ match }) => {
 	};
 
 	const renderstudents = () => {
-		if (!loadingDetails) {
+		if (!loadingDetails && !loadingAllStudents) {
+			const classStudents = dataStudents.students.filter((aStudent) =>
+				classDetails.class.students.some((g) => g.id == aStudent.id)
+			);
 			return (
 				<div>
 					<h2>Lista de estudiantes en la clase</h2>
 					<ListSecondaryItems
-						items={classDetails.class.students}
+						items={classStudents}
 						onDelete={onDeleteStudentFromClass}
+						path="/student"
 					/>
 					;
 				</div>

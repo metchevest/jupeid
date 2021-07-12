@@ -29,7 +29,8 @@ const GroupShow = ({ match }) => {
 		}
 	);
 
-	const { data: dataAllStudents } = useQuery(GET_ALL_STUDENTS);
+	const { data: dataAllStudents, loading: loadingAllStudents } =
+		useQuery(GET_ALL_STUDENTS);
 
 	const [addStudents, setAddStudents] = useState(false);
 
@@ -103,7 +104,11 @@ const GroupShow = ({ match }) => {
 	};
 
 	const renderGroupDetails = () => {
-		if (!loadingDetails) {
+		if (!loadingDetails && !loadingAllStudents) {
+			const groupStudents = dataAllStudents.students.filter((aStudent) =>
+				dataDetails.group.students.some((s) => s.id == aStudent.id)
+			);
+
 			return (
 				<div>
 					<PaymentForMany
@@ -113,8 +118,9 @@ const GroupShow = ({ match }) => {
 					<div>
 						<h2> Group's Students</h2>
 						<ListSecondaryItems
-							items={dataDetails.group.students}
+							items={groupStudents}
 							onDelete={deleteStudentGroup}
+							path="/student"
 						/>
 					</div>
 					{renderAddStudents()}

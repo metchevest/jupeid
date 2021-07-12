@@ -1,6 +1,7 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
-const ListSecondaryItems = ({ items, onSelect, onDelete }) => {
+const ListSecondaryItems = ({ items, onSelect, onDelete, path }) => {
 	const renderItems = () => {
 		return items.map((anItem) => {
 			return (
@@ -9,8 +10,7 @@ const ListSecondaryItems = ({ items, onSelect, onDelete }) => {
 					className="ju-list_selection-item"
 					onClick={() => onSelect(anItem)}
 				>
-					<p>{anItem.name}</p>
-					<p>{anItem.id}</p>
+					<Link to={`${path}/${anItem.id}`}>{anItem.name}</Link>
 					{onDelete ? (
 						<div onClick={() => onDelete(anItem.id)}>
 							<i className="trash alternate outline icon"> </i>
@@ -26,6 +26,7 @@ const ListSecondaryItems = ({ items, onSelect, onDelete }) => {
 
 ListSecondaryItems.defaultProps = {
 	onSelect: () => {},
+	path: "",
 };
 
 export default ListSecondaryItems;

@@ -7,14 +7,24 @@ import history from "../../history";
 import { WRONG_USER_PASS } from "../../variables";
 import AuthForm from "./AuthForm";
 
+import { MessageContext } from "../Context/MessageContext";
+
 const SignIn = () => {
 	const [errors, setErrors] = useState({});
+
+	const value = useContext(MessageContext);
 
 	const [logIn, { loading }] = useMutation(LOG_IN, {
 		refetchQueries: PROFILE,
 		onCompleted: (data) => {
 			if (data.logIn) {
-				history.push("/students");
+				value.setMessage({
+					top: "",
+					bottom: "",
+					positive: true,
+				});
+
+				history.push("/");
 			}
 		},
 		onError: (data) => onError(data),

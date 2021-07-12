@@ -4,7 +4,7 @@
 
 $mainColor: #33ff57; //#33ff57
 $secondColor: blueviolet;
-
+$linkColor-not-visited: #0066cc;
 .ju-root {
 	margin: 0px;
 }
@@ -40,6 +40,12 @@ body {
 	max-width: 1200px;
 	margin-left: auto;
 	margin-right: auto;
+}
+
+.ju-link {
+	font-size: 2rem;
+	color: $linkColor-not-visited;
+	cursor: pointer;
 }
 
 .ju-header {

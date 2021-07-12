@@ -32,7 +32,6 @@ export const GET_GROUP_DETAILS = gql`
 			id
 			students {
 				id
-				name
 			}
 		}
 	}

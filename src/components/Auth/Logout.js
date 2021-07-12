@@ -15,14 +15,19 @@ const Logout = () => {
 	// 	// removeAuthToken();
 	// };
 
-	const [logout] = useMutation(LOG_OUT);
+	const [logout] = useMutation(LOG_OUT, {
+		onCompleted: () => {
+			console.log("ahora navego a home");
+			history.push("/");
+		},
+	});
 
 	const logOut = () => {
 		logout();
+		// apolloClient.cache.evict({ id: "User:1" });
 		apolloClient.clearStore();
 		apolloClient.resetStore();
-		// console.log()
-		history.push("/");
+		console.log("salgo de logout");
 	};
 
 	return (

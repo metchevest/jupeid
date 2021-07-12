@@ -16,7 +16,7 @@ const Classes = () => {
 		fetchPolicy: "cache-first",
 	});
 
-	const [isTourOpen, setIsTourOpen] = useState(true);
+	const [isTourOpen, setIsTourOpen] = useState(false);
 
 	const [, , deleteClass, updateClass] = useClassHook();
 
@@ -81,7 +81,6 @@ const Classes = () => {
 	if (loading) return <p> Loading... </p>;
 
 	if (error) {
-		console.log(error);
 		return <p> Error </p>;
 	}
 
@@ -89,11 +88,16 @@ const Classes = () => {
 		<div className="ju-central-panel">
 			<div>
 				<h1 className="ju-font_title first-step-class">Your Classes</h1>
+				<div className="ju-link" onClick={() => setIsTourOpen(true)}>
+					Take the tour for a Class
+				</div>
+
 				<div className="ju-groups"> {renderClasses()}</div>
 			</div>
 			<div className="ju-form-position">
 				{addEditState === "add" ? <ClassNew /> : renderEdit()}
 			</div>
+
 			<Tour
 				steps={classSteps}
 				isOpen={isTourOpen}

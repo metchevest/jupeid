@@ -1,7 +1,7 @@
 import { useMutation } from "@apollo/client";
 
 import {
-	ADD_PAYMENT,
+	CREATE_PAYMENT,
 	GET_ALL_PAYMENTS,
 	MANY_PAYMENTS,
 } from "../../queries/Payments/payments";
@@ -13,7 +13,7 @@ export const usePaymentHook = () => {
 	// capaz que tengo que diseñar las queries de forma diferente para que se puedan ver entre ellas y no tengan que actualizar
 	// o hacer el update de forma manual, tambien para ver que cuando bajo el profile despues no
 	// tenga que volver a consultar cuando voy al resto de las pantallas
-	const [createPayment] = useMutation(ADD_PAYMENT, {
+	const [createPayment] = useMutation(CREATE_PAYMENT, {
 		update(cache, { data }) {
 			const newPaymentFromResponse = data?.createPayment;
 			const existingPayments = cache.readQuery({
@@ -27,7 +27,7 @@ export const usePaymentHook = () => {
 				cache.writeQuery({
 					query: GET_ALL_PAYMENTS,
 					data: {
-						classes: [...existingPayments.payments, newPaymentFromResponse],
+						payments: [...existingPayments.payments, newPaymentFromResponse],
 					},
 				});
 			}

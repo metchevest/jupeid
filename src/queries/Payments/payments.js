@@ -6,6 +6,10 @@ export const PAYMENT_FRAGMENT = gql`
 		month
 		year
 		paymentDate
+		student {
+			id
+			name
+		}
 	}
 `;
 export const GET_ALL_PAYMENTS = gql`
@@ -13,19 +17,16 @@ export const GET_ALL_PAYMENTS = gql`
 	query getPayments {
 		payments {
 			...PaymentFields
-			student {
-				id
-			}
 		}
 	}
 `;
-export const ADD_PAYMENT = gql`
+export const CREATE_PAYMENT = gql`
 	${PAYMENT_FRAGMENT}
-	mutation createPayment($studentId: ID!, $month: Int) {
-		createPayment(studentId: $studentId, month: $month) {
-			id
-			payments {
-				...PaymentFields
+	mutation createPayment($studentId: ID!, $month: Int, $year: Int) {
+		createPayment(studentId: $studentId, month: $month, year: $year) {
+			...PaymentFields
+			student {
+				id
 			}
 		}
 	}

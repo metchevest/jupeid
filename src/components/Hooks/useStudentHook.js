@@ -38,7 +38,7 @@ export const useStudentHook = () => {
 
 	const [deleteClassFromStudent] = useMutation(DELETE_CLASS_FROM_STUDENT, {
 		onCompleted: (data) => {
-			console.log("On delelete Class", data);
+			console.log("On delelete Class from Student", data);
 		},
 	});
 

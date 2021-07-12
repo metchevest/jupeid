@@ -20,6 +20,7 @@ const Signup = () => {
 				bottom: "Please, Log in to continue",
 				positive: true,
 			});
+
 			history.push("/");
 		},
 		onError: (data) => onError(data),

@@ -46,8 +46,8 @@ const AuthForm = ({
 		const { field, msg } = errors;
 		formik.setFieldError(field, msg);
 		formik.validateForm();
-		mailInput.focus();
-		mailInput.select();
+		// mailInput.focus();
+		// mailInput.select();
 	}, [errors]);
 
 	let mailInput;
@@ -70,7 +70,6 @@ const AuthForm = ({
 						type="text"
 						autoComplete="off"
 						placeholder="E-mail"
-						autoFocus
 						ref={(input) => {
 							mailInput = input;
 						}}

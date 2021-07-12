@@ -2,6 +2,8 @@ import React from "react";
 import ReactDOM from "react-dom";
 
 const ModalConfirm = ({ onDismiss, title, content, actions }) => {
+	const onConfirm = () => {};
+
 	return ReactDOM.createPortal(
 		<div onClick={onDismiss} className="ui dimmer modals visible active">
 			<div

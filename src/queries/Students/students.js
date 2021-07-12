@@ -35,6 +35,7 @@ export const GET_STUDENT_DETAILS = gql`
 			}
 			payments {
 				id
+				month
 			}
 			classes {
 				id

@@ -65,11 +65,16 @@ const cache = new InMemoryCache({
 						return incoming;
 					},
 				},
-				payments: {
-					merge(existing = [], incoming) {
-						return incoming;
-					},
-				},
+				// payments: {
+				// 	merge(existing, incoming, { args: { offset = 0 } }) {
+				// 		const merged = existing ? existing.slice(0) : [];
+				// 		for (let i = 0; i < incoming.length; ++i) {
+				// 			merged[offset + i] = incoming[i];
+				// 		}
+				// 		return merged;
+				// 	},
+				// 	keyArgs: false,
+				// },
 				group(_, { args, toReference }) {
 					return toReference({
 						__typename: "Group",
@@ -85,6 +90,12 @@ const cache = new InMemoryCache({
 				student(_, { args, toReference }) {
 					return toReference({
 						__typename: "Student",
+						id: args.id,
+					});
+				},
+				payment(_, { args, toReference }) {
+					return toReference({
+						__typename: "Payment",
 						id: args.id,
 					});
 				},
